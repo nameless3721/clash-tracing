@@ -1,15 +1,11 @@
 version: '3'
 services:
   influxdb:
-    image: influxdb:1.8-alpine
+    image: influxdb:1.8
     container_name: influxdb
     volumes:
       - ./data:/var/lib/influxdb
-    environment:
-      INFLUXDB_DB: events
-      INFLUXDB_ADMIN_USER: admin
-      INFLUXDB_ADMIN_PASSWORD: admin
-      INFLUXDB_HTTP_FLUX_ENABLED: 'true'
+      - ./influxdb.conf:/etc/influxdb/influxdb.conf
   grafana:
     image: grafana/grafana
     volumes:
@@ -18,10 +14,10 @@ services:
       - "3000:3000"
     container_name: grafana
   scraper:
-    build: .
+    image: nameless3721/clash-tracing
     environment:
       INFLUXDB_HOST: 'influxdb:8086'
       INFLUXDB_TOKEN: 'admin:admin'
-      CLASH_HOST: '192.168.65.2:9090'
-      CLASH_TOKEN: ''
+      CLASH_HOST: '10.0.0.2:9090'
+      CLASH_TOKEN: '123456'
     container_name: scraper

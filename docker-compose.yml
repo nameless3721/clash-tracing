@@ -2,12 +2,14 @@ version: '3'
 services:
   influxdb:
     image: influxdb:1.8
+    restart: unless-stopped
     container_name: influxdb
     volumes:
       - ./data:/var/lib/influxdb
       - ./influxdb.conf:/etc/influxdb/influxdb.conf
   grafana:
     image: grafana/grafana
+    restart: unless-stopped
     volumes:
       - ./grafana:/var/lib/grafana
     ports:
@@ -15,6 +17,7 @@ services:
     container_name: grafana
   scraper:
     image: nameless3721/clash-tracing
+    restart: unless-stopped
     environment:
       INFLUXDB_HOST: 'influxdb:8086'
       INFLUXDB_TOKEN: 'admin:admin'

@@ -18,6 +18,7 @@ services:
   scraper:
     image: nameless3721/clash-tracing
     restart: unless-stopped
+    network_mode: "host"
     environment:
       INFLUXDB_HOST: 'influxdb:8086'
       INFLUXDB_TOKEN: 'admin:admin'
